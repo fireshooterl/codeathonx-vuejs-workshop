@@ -11,7 +11,7 @@
         autofocus
       >
       <ul class="todo-list">
-        <li v-for="todo in todos" :key="todo.text">
+        <li v-for="todo in todos" :key="todo.text" :class="{ completed: todo.isDone }">
           <div class="view">
             <input class="toggle" type="checkbox">
             <label>{{todo.text}}</label>
