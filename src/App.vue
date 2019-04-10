@@ -36,6 +36,11 @@
         <span class="todo-count">
           <strong>{{activeTodos.length}}</strong> item(s) left
         </span>
+        <button
+          class="clear-completed"
+          @click="clearCompleted"
+          v-show="completedTodos.length"
+        >Clear completed</button>
       </footer>
     </section>
     <footer class="info">
@@ -63,6 +68,9 @@ export default {
   computed: {
     activeTodos() {
       return this.todos.filter(t => !t.isDone);
+    },
+    completedTodos() {
+      return this.todos.filter(t => t.isDone);
     }
   },
   methods: {
@@ -88,6 +96,9 @@ export default {
     destroyTodo(todo) {
       const index = this.todos.indexOf(todo);
       this.todos.splice(index, 1);
+    },
+    clearCompleted() {
+      this.todos = this.activeTodos;
     }
   }
 };
