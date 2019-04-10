@@ -19,7 +19,7 @@
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.isDone">
             <label @dblclick="startEditing(todo)">{{todo.text}}</label>
-            <button class="destroy"></button>
+            <button class="destroy" @click="destroyTodo(todo)"></button>
           </div>
           <input
             class="edit"
@@ -67,6 +67,10 @@ export default {
     },
     cancelEditing() {
       this.editing = null;
+    },
+    destroyTodo(todo) {
+      const index = this.todos.indexOf(todo);
+      this.todos.splice(index, 1);
     }
   }
 };
