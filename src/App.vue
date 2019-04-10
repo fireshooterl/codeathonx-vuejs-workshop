@@ -10,27 +10,39 @@
         v-on:keyup.enter="createTodo"
         autofocus
       >
-      <ul class="todo-list">
-        <li
-          v-for="todo in todos"
-          :key="todo.text"
-          :class="{ completed: todo.isDone, editing: todo === editing }"
-        >
-          <div class="view">
-            <input class="toggle" type="checkbox" v-model="todo.isDone">
-            <label @dblclick="startEditing(todo)">{{todo.text}}</label>
-            <button class="destroy" @click="destroyTodo(todo)"></button>
-          </div>
-          <input
-            class="edit"
-            @keyup.esc="cancelEditing"
-            @keyup.enter="finishEditing"
-            @blur="finishEditing"
-            :value="todo.text"
+      <section class="main">
+        <ul class="todo-list">
+          <li
+            v-for="todo in todos"
+            :key="todo.text"
+            :class="{ completed: todo.isDone, editing: todo === editing }"
           >
-        </li>
-      </ul>
+            <div class="view">
+              <input class="toggle" type="checkbox" v-model="todo.isDone">
+              <label @dblclick="startEditing(todo)">{{todo.text}}</label>
+              <button class="destroy" @click="destroyTodo(todo)"></button>
+            </div>
+            <input
+              class="edit"
+              @keyup.esc="cancelEditing"
+              @keyup.enter="finishEditing"
+              @blur="finishEditing"
+              :value="todo.text"
+            >
+          </li>
+        </ul>
+      </section>
+      <footer class="footer">
+        <span class="todo-count">
+          <strong>{{activeTodos.length}}</strong> item(s) left
+        </span>
+      </footer>
     </section>
+    <footer class="info">
+      <p>Double-click to edit a todo</p>
+      <p>Esc to cancel edit</p>
+      <p>Enter to accept edit</p>
+    </footer>
   </div>
 </template>
 
@@ -47,6 +59,11 @@ export default {
       ],
       editing: null
     };
+  },
+  computed: {
+    activeTodos() {
+      return this.todos.filter(t => !t.isDone);
+    }
   },
   methods: {
     createTodo(event) {
