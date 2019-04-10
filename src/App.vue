@@ -3,8 +3,13 @@
     <section class="todoapp">
       <header class="header">
         <h1>{{ title }}</h1>
-        <input class="new-todo" placeholder="What needs to be done?" autofocus>
       </header>
+      <input
+        class="new-todo"
+        placeholder="What needs to be done?"
+        v-on:keyup.enter="createTodo"
+        autofocus
+      >
       <ul class="todo-list">
         <li v-for="todo in todos" :key="todo.text">
           <div class="view">
@@ -31,6 +36,13 @@ export default {
         { text: "Build something awesome", isDone: false }
       ]
     };
+  },
+  methods: {
+    createTodo(event) {
+      const textbox = event.target;
+      this.todos.push({ text: textbox.value, isDone: false });
+      textbox.value = "";
+    }
   }
 };
 </script>
