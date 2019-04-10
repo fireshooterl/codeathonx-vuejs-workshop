@@ -11,13 +11,23 @@
         autofocus
       >
       <ul class="todo-list">
-        <li v-for="todo in todos" :key="todo.text" :class="{ completed: todo.isDone }">
+        <li
+          v-for="todo in todos"
+          :key="todo.text"
+          :class="{ completed: todo.isDone, editing: todo === editing }"
+        >
           <div class="view">
             <input class="toggle" type="checkbox" v-model="todo.isDone">
-            <label>{{todo.text}}</label>
+            <label @dblclick="startEditing(todo)">{{todo.text}}</label>
             <button class="destroy"></button>
           </div>
-          <input class="edit" value="Rule the web">
+          <input
+            class="edit"
+            @keyup.esc="cancelEditing"
+            @keyup.enter="finishEditing"
+            @blur="finishEditing"
+            :value="todo.text"
+          >
         </li>
       </ul>
     </section>
@@ -34,7 +44,8 @@ export default {
         { text: "Learn JavaScript ES6+ goodies", isDone: true },
         { text: "Learn Vue", isDone: false },
         { text: "Build something awesome", isDone: false }
-      ]
+      ],
+      editing: null
     };
   },
   methods: {
@@ -42,6 +53,20 @@ export default {
       const textbox = event.target;
       this.todos.push({ text: textbox.value, isDone: false });
       textbox.value = "";
+    },
+    startEditing(todo) {
+      this.editing = todo;
+    },
+    finishEditing(event) {
+      if (!this.editing) {
+        return;
+      }
+      const textbox = event.target;
+      this.editing.text = textbox.value;
+      this.editing = null;
+    },
+    cancelEditing() {
+      this.editing = null;
     }
   }
 };
