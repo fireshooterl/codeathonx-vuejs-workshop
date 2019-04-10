@@ -13,7 +13,7 @@
       <ul class="todo-list">
         <li v-for="todo in todos" :key="todo.text" :class="{ completed: todo.isDone }">
           <div class="view">
-            <input class="toggle" type="checkbox">
+            <input class="toggle" type="checkbox" v-model="todo.isDone">
             <label>{{todo.text}}</label>
             <button class="destroy"></button>
           </div>
