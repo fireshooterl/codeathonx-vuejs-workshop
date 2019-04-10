@@ -1,6 +1,11 @@
 <template>
-  <div id="app">Todo: Make a todo-list
-    <section class="todoapp"></section>
+  <div id="app">
+    <section class="todoapp">
+      <header class="header">
+        <h1>{{ title }}</h1>
+        <input class="new-todo" placeholder="What needs to be done?" autofocus>
+      </header>
+    </section>
   </div>
 </template>
 
@@ -8,7 +13,9 @@
 export default {
   name: "App",
   data() {
-    return {};
+    return {
+      title: "Hello Vue!"
+    };
   }
 };
 </script>
