@@ -12,24 +12,16 @@
       >
       <section class="main">
         <ul class="todo-list">
-          <li
+          <TodoItem
             v-for="todo in todos"
             :key="todo.text"
-            :class="{ completed: todo.isDone, editing: todo === editing }"
-          >
-            <div class="view">
-              <input class="toggle" type="checkbox" v-model="todo.isDone">
-              <label @dblclick="startEditing(todo)">{{todo.text}}</label>
-              <button class="destroy" @click="destroyTodo(todo)"></button>
-            </div>
-            <input
-              class="edit"
-              @keyup.esc="cancelEditing"
-              @keyup.enter="finishEditing"
-              @blur="finishEditing"
-              :value="todo.text"
-            >
-          </li>
+            :todo="todo"
+            :editing="editing"
+            @start-edit="startEditing"
+            @finish-edit="finishEditing"
+            @cancel-edit="cancelEditing"
+            @destroy-todo="destroyTodo"
+          ></TodoItem>
         </ul>
       </section>
       <footer class="footer">
@@ -43,17 +35,20 @@
         >Clear completed</button>
       </footer>
     </section>
-    <footer class="info">
-      <p>Double-click to edit a todo</p>
-      <p>Esc to cancel edit</p>
-      <p>Enter to accept edit</p>
-    </footer>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Footer from "./components/Footer";
+import TodoItem from "./components/TodoItem";
+
 export default {
   name: "App",
+  components: {
+    Footer,
+    TodoItem
+  },
   data() {
     return {
       title: "Hello Vue!",
@@ -81,6 +76,7 @@ export default {
     },
     startEditing(todo) {
       this.editing = todo;
+      console.log(this.editing);
     },
     finishEditing(event) {
       if (!this.editing) {
